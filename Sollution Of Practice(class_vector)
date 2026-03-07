@@ -1,0 +1,78 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+class Product
+{
+    string name,category,brand;
+public:
+    double price;
+    Product(string n,string c, string b,double p):name(n),category(c),brand(b),price(p) {}
+    void ComputeFinalPrice(double percentageDiscount)
+    {
+        price=price -price*percentageDiscount;
+    }
+    void Display()
+    {
+        cout<<"Name:"<<name<<" Category:"<<category<<" Brand:"<< brand <<" Price:"<<price<<endl;
+    }
+    string getCategory(){
+
+    return category;
+    }
+};
+void print(vector<Product>products)
+{
+    for(Product p :products)
+    {
+        p.Display();
+    }
+
+}
+bool ComparePrice(Product p1,Product p2)
+{
+    return p1.price<p2.price;
+}
+bool CompareCategory(Product p1,Product p2)
+{
+    return p1.getCategory()>p2.getCategory();
+}
+int main()
+{
+    vector <Product> products=
+    {
+        Product("Laptop","Electronics","Dell",85000),
+        Product("Mobile","Electronics","Samsung",45000),
+        Product("Chair","Furniture","Otobi",5000)
+
+    };
+Product p1("Table","Furniture","Navana",8000);
+
+products.push_back(p1);
+products.push_back(Product("Headphone","Electronics","Sony",3000));
+//print(products);
+//products[2].Display();
+cout<<"Applying discount:....."<<endl;
+for (Product &p:products)
+{
+    if(p.getCategory()=="Electronics")
+    {
+        p.ComputeFinalPrice(0.15);
+
+    }
+    else
+    {
+        p.ComputeFinalPrice(0.1);
+    }
+}
+print(products);
+cout<<"\n Sort In Ascending Order Of Price:"<<endl;
+sort(products.begin(),products.end(),ComparePrice);
+print(products);
+
+cout<<"\n Sort In Descending Order Of Category:"<<endl;
+sort(products.begin(),products.end(),CompareCategory);
+print(products);
+
+
+}
